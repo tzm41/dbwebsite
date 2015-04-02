@@ -2,6 +2,7 @@
 import cgi
 import cgitb
 import time
+import textwrap
 # import dbaccess as dba
 
 cgitb.enable()
@@ -12,16 +13,39 @@ __version__ = '1.2'
 
 
 def printWelcome():
-    print("""
+    print(textwrap.dedent("""
+        <!DOCTYPE html>
         <html>
-        <body>
-        <h1>Welcome to the university database!</h1>
+        <head>
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <title>University Database</title>
+        </head>
 
+        <body>
+        <div id="wrap">
+        <div id="header">
+        <h1><a href="#">Welcome to the university database!</a></h1>
+        </div>
+
+        <div id="intro">
+        <p>Online version of the university database.</p>
+        <p>Interactive functions.</p>
+        </div>
+
+        <div id="content">
+        <div class="article">
+        </div>
+        <h2><a href="studentList.py">List students</a></h2>
+        </div>
+
+        <div id="footer">
         <p>This page was generated at {}</p
         <P>Colin Tan</p>
+        </div>
+        </div>
         </body>
         </html>
-        """.format(time.ctime()))
+        """.format(time.ctime())))
 
 
 def main():
@@ -64,7 +88,5 @@ def main():
             raise SystemExit
 
 if __name__ == "__main__":
-    # form is a python Dictionary
-    # form = cgi.FieldStorage()
 
     printWelcome()

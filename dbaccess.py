@@ -1,32 +1,26 @@
 #!/usr/bin/env python
-import cgi
-import cgitb
 import MySQLdb as db
-cgitb.enable()
 
 __author__ = 'Colin Tan'
 __version__ = '1.2'
 
+
 # Displays a list of all students from the database.
 def displayStudentList():
     "Displays number of majors in each department."
-    conn = db.connect("localhost", "ztan", "ztan", "ztan")
+    conn = db.connect("localhost", "ztan", "ztan", "ztan_university")
     cursor = conn.cursor()
-    sql = "SELECT * FROM student"
+    sql = "SELECT * FROM Student"
     cursor.execute(sql)
-
     data = cursor.fetchall()
-    print("ID".ljust(10) + "Name".ljust(15))
-    for student in data:
-        uid, name = student
-        print str(uid).ljust(10) + name.ljust(15)
     conn.close()
+    return data
 
 
 # Displays number of majors in each department.
 def displayMajorInDept():
     "Displays number of majors in each department."
-    conn = db.connect("localhost", "ztan", "ztan", "ztan")
+    conn = db.connect("localhost", "ztan", "ztan", "ztan_university")
     cursor = conn.cursor()
     sql = """SELECT name, IFNULL(numstudents, 0)
         FROM department
@@ -48,7 +42,7 @@ def displayMajorInDept():
 # Show course enrolled by a student
 def showCourseEnrolled(name):
     "Show course enrolled by a student"
-    conn = db.connect("localhost", "ztan", "ztan", "ztan")
+    conn = db.connect("localhost", "ztan", "ztan", "ztan_university")
     cursor = conn.cursor()
 
     name_param = (name,)
@@ -77,7 +71,7 @@ def showCourseEnrolled(name):
 # Update major of a student
 def updateMajor(name, major):
     "Update major of a student"
-    conn = db.connect("localhost", "ztan", "ztan", "ztan")
+    conn = db.connect("localhost", "ztan", "ztan", "ztan_university")
     cursor = conn.cursor()
 
     name_param = (name,)
@@ -106,7 +100,7 @@ def updateMajor(name, major):
 # Show course's enrolled students
 def showCourseStudent(cname):
     "Show course's enrolled students"
-    conn = db.connect("localhost", "ztan", "ztan", "ztan")
+    conn = db.connect("localhost", "ztan", "ztan", "ztan_university")
     cursor = conn.cursor()
 
     sql = """SELECT name
@@ -127,7 +121,7 @@ def showCourseStudent(cname):
 # Add a student into the database
 def addStudent(ID, name):
     "Add a student into the database."
-    conn = db.connect("localhost", "ztan", "ztan", "ztan")
+    conn = db.connect("localhost", "ztan", "ztan", "ztan_university")
     cursor = conn.cursor()
 
     sql = "INSERT INTO Student VALUES (?,?)"
@@ -144,7 +138,7 @@ def addStudent(ID, name):
 # Delete a room
 def delRoom(rname):
     "Delete a room"
-    conn = db.connect("localhost", "ztan", "ztan", "ztan")
+    conn = db.connect("localhost", "ztan", "ztan", "ztan_university")
     cursor = conn.cursor()
 
     param = (rname,)
@@ -161,7 +155,7 @@ def delRoom(rname):
 # Deroll a student from a course
 def delReg(name, course):
     "Deroll a student from a course"
-    conn = db.connect("localhost", "ztan", "ztan", "ztan")
+    conn = db.connect("localhost", "ztan", "ztan", "ztan_university")
     cursor = conn.cursor()
 
     param = (name, course)
@@ -181,7 +175,7 @@ def delReg(name, course):
 # Enrolled student into a class
 def enrollCourse(course, name, cred):
     "Enrolled student into a class."
-    conn = db.connect("localhost", "ztan", "ztan", "ztan")
+    conn = db.connect("localhost", "ztan", "ztan", "ztan_university")
     cursor = conn.cursor()
 
     name_param = (name,)
