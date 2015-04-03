@@ -1,18 +1,28 @@
 #!/usr/bin/env python
-import cgi
 import cgitb
 import time
 import textwrap
-# import dbaccess as dba
 
 cgitb.enable()
 print("Content-Type: text/html\n")
 
 __author__ = 'Colin Tan'
-__version__ = '1.2'
+__version__ = '1.3'
 
 
 def printWelcome():
+    links = '''
+    <h2><a href="studentList.py">List students</a></h2>
+    <h2><a href="majorInDept.py">List majors in each department</a></h2>
+    <h2><a href="courseEnrolled.py">List student's courses</a></h2>
+    <h2><a href="studentEnrolled.py">List course's students</a></h2>
+    <h2><a href="updateMajor.py">Update/Add major of a student</a></h2>
+    <h2><a href="deleteReg.py">Deroll a student from a course</a></h2>
+    <h2><a href="addReg.py">Enroll a student into a course</a></h2>
+    <h2><a href="showMajor.py">Show major of students</a></h2>
+    <h2><a href="addStudent.py">Add a student into the database</a></h2>
+    <h2><a href="deleteRoom.py">Delete a room</a></h2>'''
+
     print(textwrap.dedent("""
         <!DOCTYPE html>
         <html>
@@ -35,7 +45,7 @@ def printWelcome():
         <div id="content">
         <div class="article">
         </div>
-        <h2><a href="studentList.py">List students</a></h2>
+        {}
         </div>
 
         <div id="footer">
@@ -45,7 +55,7 @@ def printWelcome():
         </div>
         </body>
         </html>
-        """.format(time.ctime())))
+        """.format(links, time.ctime())))
 
 
 def main():

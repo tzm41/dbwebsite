@@ -12,13 +12,14 @@ __version__ = '1.3'
 
 
 def acquireResult():
-    data = dba.displayStudentList()
+    data = dba.displayMajorInDept()
     result = []
-    result.append('<table id="tables"><tr><th>ID</th><th>Name</th></tr>')
-    for student in data:
-        uid, name = student
+    result.append('''<table id="tables"><tr>
+        <th>Department Name</th><th>Number of students</th></tr>''')
+    for dept in data:
+        name, num = dept
         result.append('<tr class="alt"><td>'
-                      + str(uid) + "</td><td>" + name + "</td></tr>")
+                      + name + "</td><td>" + str(num) + "</td></tr>")
     result.append("</table>")
     return ''.join(result)
 
@@ -35,7 +36,7 @@ def printResult():
         <body>
         <div id="wrap">
         <div id="header">
-        <h1><a href="#">Student List</a></h1>
+        <h1><a href="#">Majors in Each Department</a></h1>
         </div>
 
         <div id="content">

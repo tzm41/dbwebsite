@@ -1,10 +1,10 @@
 * {
-    padding: 0;
+    padding: 2;
     margin: 0;
 } 
 
 body {
-background: #fff url(../images/bg.jpg) repeat-x;
+background: #fff;
 font-family: Verdana, Arial, Helvetica, sans-serif;
 font-size: 11px;
 line-height: 18px;
@@ -21,8 +21,8 @@ width: 800px;
 }
 
 #header { 
-height: 60px;
-background: #26478A url(../images/header.jpg) no-repeat;
+height: 150px;
+background: #26478A;
 }
 #header h1 {
 font-size: 26px;
@@ -54,7 +54,7 @@ padding: 30px;
 }
 
 #content {
-padding: 10px 20px;
+padding: 20px 20px;
 }
 
 .left {
@@ -65,7 +65,7 @@ text-align: justify;
 .left h2 {
 color: #FF4800;
 font-size: 24px;
-letter-spacing: -3px;
+letter-spacing: -2px;
 font-weight: 100;
 padding : 10px 0 15px 0;
 }
