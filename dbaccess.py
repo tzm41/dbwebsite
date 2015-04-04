@@ -10,11 +10,23 @@ def displayStudentList():
     "Return a list of all students from the database."
     conn = db.connect("localhost", "ztan", "ztan", "ztan_university")
     cursor = conn.cursor()
-    sql = "SELECT * FROM Student"
+    sql = "SELECT * FROM Student;"
     cursor.execute(sql)
     data = cursor.fetchall()
     conn.close()
-    return data
+    return(data)
+
+
+# Return a list of all majors from the database
+def displayMajorList():
+    "Return a list of all students from the database."
+    conn = db.connect("localhost", "ztan", "ztan", "ztan_university")
+    cursor = conn.cursor()
+    sql = "SELECT name FROM Department;"
+    cursor.execute(sql)
+    data = cursor.fetchall()
+    conn.close()
+    return(data)
 
 
 # Return number of majors in each department
@@ -33,7 +45,7 @@ def displayMajorInDept():
     cursor.execute(sql)
     data = cursor.fetchall()
     conn.close()
-    return data
+    return(data)
 
 
 # Return major of each student
@@ -47,7 +59,7 @@ def displayMajorOfStudents():
     cursor.execute(sql)
     data = cursor.fetchall()
     conn.close()
-    return data
+    return(data)
 
 
 # Return course enrolled by a student
@@ -57,19 +69,19 @@ def showCourseEnrolled(name):
     cursor = conn.cursor()
     get_name = """SELECT id
         FROM Student
-        WHERE name = %s"""
+        WHERE name = %s;"""
     cursor.execute(get_name, name)
     id = cursor.fetchone()
     if id is not None:
         get_course = """SELECT course
             FROM Enrolled
-            WHERE student = {}""".format(id[0])
+            WHERE student = {};""".format(id[0])
         cursor.execute(get_course)
         course = cursor.fetchall()
         conn.close()
-        return course
+        return(course)
     else:
-        return None
+        return(None)
 
 
 # Update major of a student
@@ -77,25 +89,26 @@ def updateMajor(name, major):
     "Update major of a student"
     conn = db.connect("localhost", "ztan", "ztan", "ztan_university")
     cursor = conn.cursor()
-    get_name = """SELECT id
+    get_id = """SELECT id
         FROM Student
-        WHERE name = %s"""
-    cursor.execute(get_name, name)
+        WHERE name = %s;"""
+    cursor.execute(get_id, name)
     id = cursor.fetchone()
     if id is None:
-        return "Student not found."
+        conn.close()
+        return("Student not found.")
     else:
         update_major = """UPDATE MajorsIn
-        SET dept = %s
-        WHERE student = {}""".format(id[0])
-
+            SET dept = %s
+            WHERE student = {};""".format(id[0])
         cursor.execute(update_major, major)
         conn.commit()
         if cursor.rowcount > 0:
-            return "Successfully updated major."
+            conn.close()
+            return("Updated major of {} to {}.".format(name, major))
         else:
-            addMajor(id, major)
-    conn.close()
+            conn.close()
+            return addMajor(id, major)
 
 
 # fallback adding major of a student
@@ -103,16 +116,15 @@ def addMajor(id, major):
     "Add major of a student"
     conn = db.connect("localhost", "ztan", "ztan", "ztan_university")
     cursor = conn.cursor()
-    add_major = """UPDATE MajorsIn
-        SET dept = %s
-        WHERE student = {}""".format(id[0])
+    add_major = "INSERT INTO MajorsIn VALUES({}, %s);".format(id[0])
     cursor.execute(add_major, major)
     conn.commit()
     if cursor.rowcount > 0:
-        return "Successfully added major."
+        conn.close()
+        return("Successfully added major {} to the student.".format(major))
     else:
-        return "Failed. No rows updated."
-    conn.close()
+        conn.close()
+        return("Failed. No rows updated.")
 
 
 # Show course's enrolled students
@@ -136,15 +148,15 @@ def addStudent(ID, name):
     conn = db.connect("localhost", "ztan", "ztan", "ztan_university")
     cursor = conn.cursor()
 
-    sql = "INSERT INTO Student VALUES (%s, %s)"
+    sql = "INSERT INTO Student VALUES (%s, %s);"
     cursor.execute(sql, (ID, name))
     conn.commit()
     row = cursor.rowcount
     conn.close()
     if row > 0:
-        return "Succeeded."
+        return("Succeeded.")
     else:
-        return "Failed."
+        return("Failed.")
 
 
 # Delete a room
@@ -153,13 +165,13 @@ def delRoom(rname):
     conn = db.connect("localhost", "ztan", "ztan", "ztan_university")
     cursor = conn.cursor()
 
-    sql = "DELETE FROM Room WHERE name = %s"
+    sql = "DELETE FROM Room WHERE name = %s;"
     cursor.execute(sql, rname)
     conn.commit()
     if cursor.rowcount > 0:
-        return "Succeeded."
+        return("Succeeded.")
     else:
-        return "Failed. (Probably no such a room.)"
+        return("Failed. (Probably no such a room.)")
     conn.close()
 
 
@@ -178,9 +190,9 @@ def delReg(name, course):
     row = cursor.rowcount
     conn.close()
     if row > 0:
-        return "Succeeded."
+        return("Succeeded.")
     else:
-        return "Failed. (Probably no such a record.)"
+        return("Failed. (Probably no such a record.)")
 
 
 # Enrolled student into a class
@@ -191,11 +203,12 @@ def enrollCourse(course, name, cred):
 
     get_name = """SELECT id
         FROM Student
-        WHERE name = %s"""
+        WHERE name = %s;"""
     cursor.execute(get_name, name)
     id = cursor.fetchone()
     if id is None:
-        return "Student not found."
+        conn.close()
+        return("Student not found.")
     else:
         enroll = "INSERT INTO Enrolled VALUES (%s, %s, %s);"
         cursor.execute(enroll, (id[0], course, cred))
@@ -203,6 +216,6 @@ def enrollCourse(course, name, cred):
         row = cursor.rowcount
         conn.close()
         if row > 0:
-            return "Succeeded."
+            return("Succeeded.")
         else:
-            return "Failed. No rows updated."
+            return("Failed. No rows updated.")

@@ -7,7 +7,7 @@ cgitb.enable()
 print("Content-Type: text/html\n")
 
 __author__ = 'Colin Tan'
-__version__ = '1.3'
+__version__ = '1.4'
 
 
 def printWelcome():

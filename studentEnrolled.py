@@ -16,9 +16,9 @@ def acquireResult(cname):
     data = dba.showCourseStudent(cname)
     if data is not None:
         result = []
-        result.append('<table id="tables"><tr><th>Student</th></tr>')
+        result.append('<table id="tables"><tr><th>Student</th></tr>\n')
         for course in data:
-            result.append('<tr class="alt"><td>' + course[0] + "</td></tr>")
+            result.append('<tr class="alt"><td>' + course[0] + "</td></tr>\n")
         result.append("</table>")
         return ''.join(result)
     else:

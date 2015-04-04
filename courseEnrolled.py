@@ -12,6 +12,15 @@ __author__ = 'Colin Tan'
 __version__ = '1.3'
 
 
+def getStudentList():
+    data = dba.displayStudentList()
+    result = []
+    for student in data:
+        uid, name = student
+        result.append('<option>{}</option>\n'.format(name))
+    return ''.join(result)
+
+
 def acquireResult(name):
     data = dba.showCourseEnrolled(name)
     if data is not None:
@@ -73,7 +82,9 @@ def printForm():
         <div id="content">
         <form method="post">
         <h1><a href="studentList.py">Name (click to view): </a></h1>
-        <input type="text" name="name">
+        <select name="name">
+        {}
+        </select>
         <input type="submit" name="Go!" value="Go!">
         </form>
         <h2><a href="university.py">Back to main</a></h2>
@@ -86,7 +97,7 @@ def printForm():
         </div>
         </body>
         </html>
-        """.format(time.ctime())))
+        """.format(getStudentList(), time.ctime())))
 
 
 if __name__ == "__main__":

@@ -14,11 +14,11 @@ __version__ = '1.3'
 def acquireResult():
     data = dba.displayStudentList()
     result = []
-    result.append('<table id="tables"><tr><th>ID</th><th>Name</th></tr>')
+    result.append('<table id="tables"><tr><th>ID</th><th>Name</th></tr>\n')
     for student in data:
         uid, name = student
         result.append('<tr class="alt"><td>'
-                      + str(uid) + "</td><td>" + name + "</td></tr>")
+                      + str(uid) + "</td><td>" + name + "</td></tr>\n")
     result.append("</table>")
     return ''.join(result)
 

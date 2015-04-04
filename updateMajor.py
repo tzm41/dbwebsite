@@ -9,7 +9,24 @@ cgitb.enable()
 print("Content-Type: text/html\n")
 
 __author__ = 'Colin Tan'
-__version__ = '1.3'
+__version__ = '1.4'
+
+
+def getStudentList():
+    data = dba.displayStudentList()
+    result = []
+    for student in data:
+        uid, name = student
+        result.append('<option>{}</option>\n'.format(name))
+    return ''.join(result)
+
+
+def getMajorList():
+    data = dba.displayMajorList()
+    result = []
+    for dname in data:
+        result.append('<option>{}</option>\n'.format(dname[0]))
+    return ''.join(result)
 
 
 def printResult(name, major):
@@ -24,7 +41,7 @@ def printResult(name, major):
         <body>
         <div id="wrap">
         <div id="header">
-        <h1><a href="#">Update Major of {}</a></h1>
+        <h1><a href="#">Update Major of {} to {}</a></h1>
         </div>
 
         <div id="content">
@@ -40,7 +57,7 @@ def printResult(name, major):
         </div>
         </body>
         </html>
-        """.format(name, dba.updateMajor(name, major), time.ctime())))
+        """.format(name, major, dba.updateMajor(name, major), time.ctime())))
 
 
 def printForm():
@@ -61,10 +78,15 @@ def printForm():
         <div id="content">
         <form method="post">
         <h1><a href="studentList.py">Name (click to view): </a></h1>
-        <input type="text" name="name">
+        <select name="name">
+        {}
+        </select>
         <h1>New major: </h1>
-        <input type="text" name="major">
+        <select name="major">
+        {}
+        </select>
         <input type="submit" name="Go!" value="Go!">
+        <input type="reset" name="Reset" value="Reset">
         </form>
         <h2><a href="showMajor.py">Show major of students</a></h2>
         <h2><a href="university.py">Back to main</a></h2>
@@ -77,7 +99,7 @@ def printForm():
         </div>
         </body>
         </html>
-        """.format(time.ctime())))
+        """.format(getStudentList(), getMajorList(), time.ctime())))
 
 
 if __name__ == "__main__":
